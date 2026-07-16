@@ -7,7 +7,7 @@
   {
     "url": "https://github.com/SmallCarrotQWQ/fishing_game",
     "isPhishing": false,
-    "explanation": "The registered domain is github.com. The rest of the address is only the user and repository path. Focus on the hostname before the first slash."
+    "explanation": "The registered domain is github.com. The rest of the address is only the user and repository path."
   },
   {
     "url": "https://www.microsoft.com/en-us/security",
@@ -40,7 +40,7 @@
     "explanation": "accounts is a subdomain of google.com, so the real registered domain is still google.com."
   },
   {
-    "url": "https://paypal.com",
+    "url": "https://www.paypal.com/signin",
     "isPhishing": false,
     "explanation": "paypal.com is spelled correctly. HTTPS is only one safety signal, so the domain must still be checked."
   },
@@ -50,53 +50,203 @@
     "explanation": "The registered domain netflix.com is spelled correctly, and /login is an internal login path."
   },
   {
-    "url": "http://google-account-check.example/login",
-    "isPhishing": true,
-    "explanation": "The registered domain is google-account-check.example, not google.com. It also uses unencrypted HTTP."
+    "url": "https://www.cloudflare.com/learning/security/what-is-phishing/",
+    "isPhishing": false,
+    "explanation": "The registered domain is cloudflare.com. The longer text after the domain is a normal educational page path."
   },
   {
-    "url": "https://paypal.com.secure-payment.example/verify",
-    "isPhishing": true,
-    "explanation": "paypal.com is only part of a misleading subdomain. The address is actually controlled by secure-payment.example."
+    "url": "https://support.mozilla.org/en-US/",
+    "isPhishing": false,
+    "explanation": "support is a legitimate subdomain of mozilla.org. Read the hostname from right to left to identify the registered domain."
   },
   {
-    "url": "https://micros0ft.example/password-reset",
-    "isPhishing": true,
-    "explanation": "The number 0 replaces the letter o, a common lookalike trick. The registered domain is not microsoft.com."
+    "url": "https://www.linkedin.com/login",
+    "isPhishing": false,
+    "explanation": "The hostname ends with the correctly spelled registered domain linkedin.com."
   },
   {
-    "url": "https://apple-id-confirm.example/signin",
-    "isPhishing": true,
-    "explanation": "A brand name inside a URL does not prove ownership. This registered domain ends in .example, not apple.com."
+    "url": "https://account.adobe.com",
+    "isPhishing": false,
+    "explanation": "account is a subdomain controlled under adobe.com, the official registered domain."
   },
   {
-    "url": "https://amazon-order-refund.example/claim",
-    "isPhishing": true,
-    "explanation": "The order-refund wording creates urgency, but the domain is not amazon.com. A brand name inside a URL is not proof of legitimacy."
+    "url": "https://www.dropbox.com/login",
+    "isPhishing": false,
+    "explanation": "The registered domain is dropbox.com, with no added words, substitutions, or misleading suffixes."
   },
   {
-    "url": "https://netfIix.example/billing",
-    "isPhishing": true,
-    "explanation": "An uppercase I is used to imitate a lowercase l, making the name resemble netflix even though the spelling is different."
+    "url": "https://zoom.us/signin",
+    "isPhishing": false,
+    "explanation": "zoom.us is the correctly spelled registered domain. The /signin portion is only a path."
   },
   {
-    "url": "https://github-security-alert.example/authorize",
+    "url": "https://slack.com/signin",
+    "isPhishing": false,
+    "explanation": "The registered domain is slack.com. There are no extra domains after the brand name."
+  },
+  {
+    "url": "https://accounts.spotify.com/en/login",
+    "isPhishing": false,
+    "explanation": "accounts is a subdomain of spotify.com, so the address remains under Spotify's registered domain."
+  },
+  {
+    "url": "https://www.reddit.com/login/",
+    "isPhishing": false,
+    "explanation": "reddit.com is spelled correctly and /login is a normal page path."
+  },
+  {
+    "url": "https://stackoverflow.com/users/login",
+    "isPhishing": false,
+    "explanation": "The registered domain is stackoverflow.com. The users/login portion appears after the domain as a path."
+  },
+  {
+    "url": "https://www.npmjs.com/login",
+    "isPhishing": false,
+    "explanation": "npmjs.com is the official registered domain, and www is a standard subdomain."
+  },
+  {
+    "url": "https://www.python.org/downloads/",
+    "isPhishing": false,
+    "explanation": "The registered domain is python.org. The downloads section is a path on the official site."
+  },
+  {
+    "url": "https://ubuntu.com/download",
+    "isPhishing": false,
+    "explanation": "ubuntu.com is correctly spelled, and /download is an internal path on that domain."
+  },
+  {
+    "url": "https://www.bbc.com/news",
+    "isPhishing": false,
+    "explanation": "The registered domain is bbc.com. The www subdomain and /news path do not change who controls it."
+  },
+  {
+    "url": "https://www.nytimes.com/international/",
+    "isPhishing": false,
+    "explanation": "nytimes.com is the correctly spelled registered domain; /international is simply a content path."
+  },
+  {
+    "url": "http://google-account-check.test/login",
     "isPhishing": true,
-    "explanation": "The registered domain is not github.com. Trustworthy words such as security and alert do not prove that a site is safe."
+    "explanation": "The registered domain is google-account-check.test, not google.com. It also uses unencrypted HTTP."
+  },
+  {
+    "url": "https://paypal.com.secure-payment.invalid/verify",
+    "isPhishing": true,
+    "explanation": "paypal.com is only a misleading subdomain. The address actually ends at secure-payment.invalid."
+  },
+  {
+    "url": "https://micros0ft-login.test/password-reset",
+    "isPhishing": true,
+    "explanation": "The number 0 replaces the letter o, a common lookalike trick, and the registered domain is not microsoft.com."
+  },
+  {
+    "url": "https://apple-id-confirm.invalid/signin",
+    "isPhishing": true,
+    "explanation": "A brand name inside a URL does not prove ownership. The registered domain ends in .invalid, not apple.com."
+  },
+  {
+    "url": "https://amazon-order-refund.test/claim",
+    "isPhishing": true,
+    "explanation": "The order-refund wording creates urgency, but the registered domain is not amazon.com."
+  },
+  {
+    "url": "https://netfIix-billing.invalid/update",
+    "isPhishing": true,
+    "explanation": "An uppercase I imitates a lowercase l, making the name resemble netflix even though it is spelled differently."
+  },
+  {
+    "url": "https://github-security-alert.test/authorize",
+    "isPhishing": true,
+    "explanation": "The registered domain is not github.com. Words such as security and alert do not prove that a site is safe."
   },
   {
     "url": "https://192.0.2.45/account/login",
     "isPhishing": true,
-    "explanation": "A login page using a raw IP address with no verifiable brand domain is a major warning sign. This IP belongs to a documentation-only range."
+    "explanation": "A login page using a raw IP address with no verifiable brand domain is a major warning sign. This is a documentation-only IP."
   },
   {
-    "url": "http://bank-update.example/urgent",
+    "url": "http://bank-update.invalid/urgent",
     "isPhishing": true,
     "explanation": "This address uses HTTP, a vague bank label, and urgent wording without any verifiable official bank domain."
   },
   {
-    "url": "https://accounts.google.com.login-check.example",
+    "url": "https://accounts.google.com.login-check.test",
     "isPhishing": true,
-    "explanation": "Read the hostname from right to left: the registered domain is login-check.example. accounts.google.com is only a misleading subdomain."
+    "explanation": "Read the hostname from right to left: the registered domain is login-check.test. accounts.google.com is only a misleading subdomain."
+  },
+  {
+    "url": "https://facebook-login.example.com/security-check",
+    "isPhishing": true,
+    "explanation": "The address ends in example.com, not facebook.com. The brand name appears only in a subdomain."
+  },
+  {
+    "url": "https://linkedin.verify-user.example.net/session",
+    "isPhishing": true,
+    "explanation": "The registered domain is example.net. linkedin and verify-user are misleading subdomains placed before it."
+  },
+  {
+    "url": "https://discord-gift.example.org/redeem",
+    "isPhishing": true,
+    "explanation": "The promise of a gift encourages a quick click, but the registered domain is example.org rather than discord.com."
+  },
+  {
+    "url": "https://dropbox-share-alert.test/open-file",
+    "isPhishing": true,
+    "explanation": "The brand name and sharing language are bait. The registered domain is not dropbox.com."
+  },
+  {
+    "url": "https://zoom-meeting-auth.invalid/join",
+    "isPhishing": true,
+    "explanation": "This address combines trusted-looking words, but its registered domain is not zoom.us."
+  },
+  {
+    "url": "https://cloudflare-security-check.test/captcha",
+    "isPhishing": true,
+    "explanation": "Adding cloudflare and security to a hostname does not make it official. The registered domain ends in .test."
+  },
+  {
+    "url": "https://spotify-premium-gift.invalid/activate",
+    "isPhishing": true,
+    "explanation": "A free premium offer is used as bait, while the registered domain is not spotify.com."
+  },
+  {
+    "url": "https://microsoftonline.password-reset.example.net/confirm",
+    "isPhishing": true,
+    "explanation": "microsoftonline appears only as a subdomain. The address is controlled under example.net, not microsoft.com."
+  },
+  {
+    "url": "https://npmjs-package-warning.test/signin",
+    "isPhishing": true,
+    "explanation": "The warning language creates pressure, but the registered domain is not npmjs.com."
+  },
+  {
+    "url": "https://python-download-update.invalid/install",
+    "isPhishing": true,
+    "explanation": "The words python and download are not enough. The registered domain is not python.org."
+  },
+  {
+    "url": "https://ubuntu-support-login.example.org/account",
+    "isPhishing": true,
+    "explanation": "The registered domain is example.org. ubuntu-support-login is only a misleading subdomain label."
+  },
+  {
+    "url": "https://adobe-document-signin.test/view",
+    "isPhishing": true,
+    "explanation": "Document-sharing language may create curiosity, but the registered domain is not adobe.com."
+  },
+  {
+    "url": "https://slack-workspace-invite.invalid/accept",
+    "isPhishing": true,
+    "explanation": "This looks like a workspace invitation, but the registered domain is not slack.com."
+  },
+  {
+    "url": "http://198.51.100.23/webmail/verify",
+    "isPhishing": true,
+    "explanation": "The site uses an unencrypted connection and a raw IP instead of a recognizable mail provider domain. This IP is reserved for documentation."
+  },
+  {
+    "url": "https://apple.com.account-recovery.example.net/unlock",
+    "isPhishing": true,
+    "explanation": "apple.com is buried in the subdomain. The real registered domain is example.net, read from the right-hand side."
   }
 ]

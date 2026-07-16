@@ -7,7 +7,7 @@ Phishing Detective is an interactive URL-identification game for Lesson 2. Each 
 ## Files
 
 - `index.html` contains the complete interface, styling, and game logic. It has no external dependencies.
-- `phising_url.json` contains 20 safe teaching examples: 10 legitimate URLs and 10 phishing-style URLs that use the reserved `.example` domain.
+- `phising_url.json` contains 50 safe teaching examples: 25 legitimate URLs and 25 phishing-style URLs.
 
 ## How to Play
 
@@ -50,6 +50,6 @@ Edit `phising_url.json`. Every question must follow this format:
 - `isPhishing: true` marks a phishing-style URL.
 - `isPhishing: false` marks a legitimate URL.
 - The question bank must contain at least 10 entries.
-- Never add active malicious URLs. Use the reserved `.example` domain for teaching examples.
+- Never add active malicious URLs. Use reserved `.test`, `.invalid`, `example.com/.net/.org`, or documentation-only IP addresses for teaching examples.
 
 After changes are pushed, both GitHub Pages and the directly opened version will load the latest question bank.

@@ -2,101 +2,101 @@
   {
     "url": "https://www.google.com",
     "isPhishing": false,
-    "explanation": "这是 Google 的官方域名。协议为 HTTPS，主域名准确，没有额外的拼写或可疑子域名。"
+    "explanation": "This is Google's official domain. It uses HTTPS, the registered domain is spelled correctly, and there are no suspicious subdomains."
   },
   {
     "url": "https://github.com/SmallCarrotQWQ/fishing_game",
     "isPhishing": false,
-    "explanation": "主域名是 github.com，路径只是该站点中的用户和仓库名称。判断时应重点看第一个斜杠前的主机名。"
+    "explanation": "The registered domain is github.com. The rest of the address is only the user and repository path. Focus on the hostname before the first slash."
   },
   {
     "url": "https://www.microsoft.com/en-us/security",
     "isPhishing": false,
-    "explanation": "microsoft.com 是微软官方域名，www 是正常子域名，后面的内容只是站内路径。"
+    "explanation": "microsoft.com is Microsoft's official domain. The www subdomain is normal, and everything after it is an internal page path."
   },
   {
     "url": "https://support.apple.com",
     "isPhishing": false,
-    "explanation": "真正的主域名是 apple.com，support 是它的官方子域名。"
+    "explanation": "The registered domain is apple.com, and support is an official subdomain beneath it."
   },
   {
     "url": "https://www.wikipedia.org",
     "isPhishing": false,
-    "explanation": "wikipedia.org 拼写正确，没有多余字符或伪装域名。"
+    "explanation": "wikipedia.org is spelled correctly and contains no extra characters or disguised domain names."
   },
   {
     "url": "https://openai.com/research",
     "isPhishing": false,
-    "explanation": "主域名是 openai.com，/research 是普通路径。"
+    "explanation": "The registered domain is openai.com, while /research is simply a page path on that site."
   },
   {
     "url": "https://www.amazon.com/gp/help/customer/display.html",
     "isPhishing": false,
-    "explanation": "主域名是 amazon.com。较长的路径不一定危险，关键是先确认主域名。"
+    "explanation": "The registered domain is amazon.com. A long path is not automatically dangerous; verify the domain first."
   },
   {
     "url": "https://accounts.google.com/signin",
     "isPhishing": false,
-    "explanation": "accounts 是 google.com 的子域名，真正的主域名仍然是 google.com。"
+    "explanation": "accounts is a subdomain of google.com, so the real registered domain is still google.com."
   },
   {
     "url": "https://paypal.com",
     "isPhishing": false,
-    "explanation": "paypal.com 拼写正确。HTTPS 只是判断因素之一，还需要一起核对域名。"
+    "explanation": "paypal.com is spelled correctly. HTTPS is only one safety signal, so the domain must still be checked."
   },
   {
     "url": "https://www.netflix.com/login",
     "isPhishing": false,
-    "explanation": "主域名 netflix.com 拼写正确，/login 是站内登录路径。"
+    "explanation": "The registered domain netflix.com is spelled correctly, and /login is an internal login path."
   },
   {
     "url": "http://google-account-check.example/login",
     "isPhishing": true,
-    "explanation": "主域名是 google-account-check.example，而不是 google.com；同时还使用了未加密的 HTTP。"
+    "explanation": "The registered domain is google-account-check.example, not google.com. It also uses unencrypted HTTP."
   },
   {
     "url": "https://paypal.com.secure-payment.example/verify",
     "isPhishing": true,
-    "explanation": "paypal.com 在这里是子域名的一部分，真正控制该地址的是 secure-payment.example。"
+    "explanation": "paypal.com is only part of a misleading subdomain. The address is actually controlled by secure-payment.example."
   },
   {
     "url": "https://micros0ft.example/password-reset",
     "isPhishing": true,
-    "explanation": "用数字 0 替换字母 o 是常见的仿冒拼写手法，而且主域名不是 microsoft.com。"
+    "explanation": "The number 0 replaces the letter o, a common lookalike trick. The registered domain is not microsoft.com."
   },
   {
     "url": "https://apple-id-confirm.example/signin",
     "isPhishing": true,
-    "explanation": "域名中出现品牌名称并不代表官方所有；真正域名以 .example 结尾，不是 apple.com。"
+    "explanation": "A brand name inside a URL does not prove ownership. This registered domain ends in .example, not apple.com."
   },
   {
     "url": "https://amazon-order-refund.example/claim",
     "isPhishing": true,
-    "explanation": "“订单退款”制造紧迫感，但域名并非 amazon.com。不要只看网址中是否出现品牌名。"
+    "explanation": "The order-refund wording creates urgency, but the domain is not amazon.com. A brand name inside a URL is not proof of legitimacy."
   },
   {
     "url": "https://netfIix.example/billing",
     "isPhishing": true,
-    "explanation": "这里用大写字母 I 冒充小写字母 l，看起来像 netflix，但实际拼写不同。"
+    "explanation": "An uppercase I is used to imitate a lowercase l, making the name resemble netflix even though the spelling is different."
   },
   {
     "url": "https://github-security-alert.example/authorize",
     "isPhishing": true,
-    "explanation": "真实域名不是 github.com。带有 security、alert 等可信词汇也不能证明网站安全。"
+    "explanation": "The registered domain is not github.com. Trustworthy words such as security and alert do not prove that a site is safe."
   },
   {
     "url": "https://192.0.2.45/account/login",
     "isPhishing": true,
-    "explanation": "登录页直接使用 IP 地址且没有可核对的品牌域名，是明显的危险信号。该 IP 属于文档示例保留网段。"
+    "explanation": "A login page using a raw IP address with no verifiable brand domain is a major warning sign. This IP belongs to a documentation-only range."
   },
   {
     "url": "http://bank-update.example/urgent",
     "isPhishing": true,
-    "explanation": "使用 HTTP、模糊的 bank 名称和“urgent”紧急措辞，且没有任何可验证的银行官方域名。"
+    "explanation": "This address uses HTTP, a vague bank label, and urgent wording without any verifiable official bank domain."
   },
   {
     "url": "https://accounts.google.com.login-check.example",
     "isPhishing": true,
-    "explanation": "从右向左看，真正的注册域名是 login-check.example；前面的 accounts.google.com 只是迷惑性的子域名。"
+    "explanation": "Read the hostname from right to left: the registered domain is login-check.example. accounts.google.com is only a misleading subdomain."
   }
 ]

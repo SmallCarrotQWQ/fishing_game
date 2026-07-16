@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="一个帮助学习识别钓鱼网址的互动小游戏">
-  <title>Phishing Detective · 钓鱼侦探</title>
+  <meta name="description" content="An interactive game for learning how to identify phishing URLs">
+  <title>Phishing Detective</title>
   <style>
     :root {
       color-scheme: dark;
@@ -219,10 +219,10 @@
         <div class="logo" aria-hidden="true">🎣</div>
         <div>
           <p class="eyebrow">Cyber awareness game</p>
-          <h1>Phishing Detective · 钓鱼侦探</h1>
+          <h1>Phishing Detective</h1>
         </div>
       </div>
-      <div class="scoreboard" aria-label="游戏数据">
+      <div class="scoreboard" aria-label="Game statistics">
         <div class="stat"><span>Score</span><strong id="score">0</strong></div>
         <div class="stat"><span>Streak</span><strong id="streak">0</strong></div>
       </div>
@@ -237,9 +237,9 @@
       <section class="screen intro active" id="introScreen">
         <div class="intro-icon" aria-hidden="true">🕵️</div>
         <p class="tip">Your mission</p>
-        <h2>你能识破伪装吗？</h2>
-        <p class="lead">每局随机抽取 10 个网址。观察协议、主域名和拼写，判断它是安全网站还是钓鱼陷阱。网址仅用于学习，不可点击。</p>
-        <button class="btn btn-primary" id="startButton" type="button">开始调查 / Start game</button>
+        <h2>Can you spot the disguise?</h2>
+        <p class="lead">Each round contains 10 randomly selected URLs. Inspect the protocol, domain, and spelling to decide whether each site is legitimate or a phishing trap. The URLs are displayed for learning only and are not clickable.</p>
+        <button class="btn btn-primary" id="startButton" type="button">Start investigation</button>
         <div class="error-box" id="errorBox" role="alert"></div>
       </section>
 
@@ -249,29 +249,29 @@
           <div class="address-label"><span aria-hidden="true">🔎</span> address under review</div>
           <div class="url" id="urlDisplay"></div>
         </div>
-        <p class="question">这是安全网站，还是钓鱼陷阱？</p>
+        <p class="question">Is this website legitimate or a phishing trap?</p>
         <div class="actions" id="answerButtons">
-          <button class="btn btn-safe" type="button" data-answer="safe">✓ 安全网站 / Legitimate</button>
-          <button class="btn btn-danger" type="button" data-answer="phishing">⚠ 钓鱼陷阱 / Phishing</button>
+          <button class="btn btn-safe" type="button" data-answer="safe">✓ Legitimate website</button>
+          <button class="btn btn-danger" type="button" data-answer="phishing">⚠ Phishing trap</button>
         </div>
         <div class="feedback" id="feedback">
           <h3 id="feedbackTitle"></h3>
           <p id="explanation"></p>
-          <button class="btn btn-primary next" id="nextButton" type="button">下一题 / Next</button>
+          <button class="btn btn-primary next" id="nextButton" type="button">Next question</button>
         </div>
       </section>
 
       <section class="screen result" id="resultScreen">
         <div class="result-icon" id="resultIcon" aria-hidden="true">🏆</div>
         <p class="tip">Investigation complete</p>
-        <h2 id="resultTitle">调查完成！</h2>
+        <h2 id="resultTitle">Investigation complete!</h2>
         <div class="result-score"><span id="finalScore">0</span><small> / 10</small></div>
         <p class="lead" id="resultMessage"></p>
-        <button class="btn btn-primary" id="restartButton" type="button">再玩一次 / Play again</button>
+        <button class="btn btn-primary" id="restartButton" type="button">Play again</button>
       </section>
     </main>
 
-    <footer>安全提示：不要仅凭 HTTPS 判断网站安全；始终核对真正的主域名。</footer>
+    <footer>Security tip: HTTPS alone does not prove a site is safe. Always verify the real registered domain.</footer>
   </div>
 
   <script>
@@ -341,7 +341,7 @@
           console.warn(`Unable to load ${source}:`, error);
         }
       }
-      throw new Error("无法读取题库。请联网后重试，或使用本地服务器打开本项目。详见 README.md。")
+      throw new Error("Unable to load the question bank. Check your connection or open the project through a local server. See README.md for instructions.")
     }
 
     function showScreen(screen) {
@@ -351,7 +351,7 @@
 
     async function startGame() {
       elements.start.disabled = true;
-      elements.start.textContent = "正在读取题库…";
+      elements.start.textContent = "Loading questions…";
       elements.error.classList.remove("show");
       try {
         if (!allQuestions.length) allQuestions = await loadData();
@@ -367,7 +367,7 @@
         elements.error.classList.add("show");
       } finally {
         elements.start.disabled = false;
-        elements.start.textContent = "开始调查 / Start game";
+        elements.start.textContent = "Start investigation";
       }
     }
 
@@ -384,7 +384,7 @@
       elements.progressBar.style.width = `${((currentIndex + 1) / questions.length) * 100}%`;
       elements.feedback.className = "feedback";
       [...elements.answers.querySelectorAll("button")].forEach(button => { button.disabled = false; });
-      elements.next.textContent = currentIndex === questions.length - 1 ? "查看结果 / See result" : "下一题 / Next";
+      elements.next.textContent = currentIndex === questions.length - 1 ? "See results" : "Next question";
     }
 
     function answer(choice) {
@@ -397,11 +397,11 @@
       if (correct) {
         score += 1;
         streak += 1;
-        elements.feedbackTitle.textContent = "✓ 判断正确！ Good catch.";
+        elements.feedbackTitle.textContent = "✓ Correct! Good catch.";
         elements.feedback.classList.add("correct");
       } else {
         streak = 0;
-        elements.feedbackTitle.textContent = "✕ 被伪装迷惑了。 Stay alert.";
+        elements.feedbackTitle.textContent = "✕ The disguise fooled you. Stay alert.";
         elements.feedback.classList.add("wrong");
       }
 
@@ -426,16 +426,16 @@
       elements.finalScore.textContent = score;
       if (ratio >= .9) {
         elements.resultIcon.textContent = "🏆";
-        elements.resultTitle.textContent = "顶级钓鱼侦探！";
-        elements.resultMessage.textContent = "你的域名观察力非常敏锐。继续保持警惕，别让紧迫感代替判断。";
+        elements.resultTitle.textContent = "Elite Phishing Detective!";
+        elements.resultMessage.textContent = "Your eye for suspicious domains is excellent. Stay alert, and never let urgency replace careful judgment.";
       } else if (ratio >= .6) {
         elements.resultIcon.textContent = "🔍";
-        elements.resultTitle.textContent = "合格的网络侦探";
-        elements.resultMessage.textContent = "不错！再练习一下从右向左核对主域名，你会识破更多伪装。";
+        elements.resultTitle.textContent = "Qualified Cyber Detective";
+        elements.resultMessage.textContent = "Nice work! Practice reading domains from right to left and you will uncover even more disguises.";
       } else {
         elements.resultIcon.textContent = "🛡️";
-        elements.resultTitle.textContent = "警觉度需要升级";
-        elements.resultMessage.textContent = "先别输入密码。检查拼写、主域名、协议和紧急措辞，然后再决定是否继续。";
+        elements.resultTitle.textContent = "Time to Sharpen Your Defenses";
+        elements.resultMessage.textContent = "Before entering a password, check the spelling, registered domain, protocol, and any language designed to create urgency.";
       }
       showScreen(elements.result);
     }

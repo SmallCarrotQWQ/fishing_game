@@ -1,56 +1,55 @@
-# Phishing Detective（钓鱼网址识别游戏）
+# Phishing Detective
 
-这是 Lesson 2 的钓鱼网址识别小游戏。玩家每局会随机判断 10 个网址，答题后可立即看到解释。
+Phishing Detective is an interactive URL-identification game for Lesson 2. Each round presents 10 randomly selected URLs and explains the answer immediately after every choice.
 
-> 注意：作业原文要求的文件名拼写为 `phising_url.json`（少一个 h），本项目按原要求保留了该名称。
+> The assignment specifies the filename `phising_url.json` with one "h" missing. This project keeps that spelling to match the original instructions.
 
-## 文件说明
+## Files
 
-- `index.html`：完整的游戏界面、样式和逻辑，无需安装依赖。
-- `phising_url.json`：20 道安全演示题目，包含合法网址和使用 `.example` 保留域名的钓鱼示例。
+- `index.html` contains the complete interface, styling, and game logic. It has no external dependencies.
+- `phising_url.json` contains 20 safe teaching examples: 10 legitimate URLs and 10 phishing-style URLs that use the reserved `.example` domain.
 
-## 使用方法
+## How to Play
 
-### 方法一：直接双击（最简单）
+### Option 1: Open the file directly
 
-1. 确保电脑可以访问 GitHub。
-2. 双击 `index.html`，浏览器会从本仓库的 GitHub Raw 地址读取题库。
-3. 点击“开始调查”，选择“安全网站”或“钓鱼陷阱”。
+1. Make sure the computer can access GitHub.
+2. Double-click `index.html`. The browser will load the question bank from this repository's GitHub Raw URL.
+3. Select **Legitimate website** or **Phishing trap** for each question.
 
-### 方法二：运行本地服务器（最稳定）
+### Option 2: Run a local server (recommended)
 
-在本文件夹打开 PowerShell，执行：
+Open PowerShell in this folder and run:
 
 ```powershell
 python -m http.server 8000
 ```
 
-然后在浏览器打开 <http://localhost:8000>。结束时在 PowerShell 中按 `Ctrl+C`。
+Open <http://localhost:8000> in a browser. Press `Ctrl+C` in PowerShell when finished.
 
-如果没有 Python，也可以使用 VS Code 的 **Live Server** 扩展打开 `index.html`。
+If Python is unavailable, open `index.html` with the **Live Server** extension in VS Code.
 
-### 方法三：GitHub Pages 在线发布
+### Option 3: Use the online GitHub Pages version
 
-1. 打开 GitHub 仓库的 **Settings → Pages**。
-2. 在 **Build and deployment** 中选择 **Deploy from a branch**。
-3. Branch 选择 `main`，目录选择 `/ (root)`，点击 **Save**。
-4. 等待约 1–3 分钟后，访问：<https://smallcarrotqwq.github.io/fishing_game/>
+Visit <https://smallcarrotqwq.github.io/fishing_game/>.
 
-## 修改题库
+The deployment source is configured in **Settings → Pages** as the `main` branch and `/ (root)` folder.
 
-编辑 `phising_url.json`，每道题必须包含：
+## Editing the Question Bank
+
+Edit `phising_url.json`. Every question must follow this format:
 
 ```json
 {
   "url": "https://example.com",
   "isPhishing": false,
-  "explanation": "这里填写判断理由。"
+  "explanation": "Explain the reason for the answer here."
 }
 ```
 
-- `isPhishing: true` 表示钓鱼网址。
-- `isPhishing: false` 表示合法网址。
-- 题库至少需要 10 道题。
-- 请勿加入真实的恶意网址；建议使用 `.example` 保留域名制作教学示例。
+- `isPhishing: true` marks a phishing-style URL.
+- `isPhishing: false` marks a legitimate URL.
+- The question bank must contain at least 10 entries.
+- Never add active malicious URLs. Use the reserved `.example` domain for teaching examples.
 
-修改并推送后，直接双击打开的版本和 GitHub Pages 版本都会读取最新题库。
+After changes are pushed, both GitHub Pages and the directly opened version will load the latest question bank.

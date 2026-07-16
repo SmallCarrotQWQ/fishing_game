@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="一个帮助学习识别钓鱼网址的互动小游戏">
+  <title>Phishing Detective · 钓鱼侦探</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07111f;
+      --panel: rgba(14, 28, 47, .88);
+      --panel-2: #111f33;
+      --line: rgba(148, 163, 184, .2);
+      --text: #eef6ff;
+      --muted: #9eb0c6;
+      --cyan: #43d9d0;
+      --green: #64e69a;
+      --red: #ff6b7d;
+      --yellow: #ffd166;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .38);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 18%, rgba(67, 217, 208, .16), transparent 28rem),
+        radial-gradient(circle at 88% 78%, rgba(90, 115, 255, .17), transparent 30rem),
+        var(--bg);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+    }
+
+    button { font: inherit; }
+
+    .app {
+      position: relative;
+      width: min(960px, calc(100% - 32px));
+      margin: 32px auto;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 26px 30px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand { display: flex; align-items: center; gap: 14px; }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      font-size: 25px;
+      background: linear-gradient(145deg, rgba(67,217,208,.24), rgba(90,115,255,.18));
+      border: 1px solid rgba(67,217,208,.3);
+    }
+
+    h1 { margin: 0; font-size: clamp(1.1rem, 3vw, 1.38rem); letter-spacing: .01em; }
+    .eyebrow { margin: 0 0 4px; color: var(--cyan); font-size: .72rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+
+    .scoreboard { display: flex; gap: 8px; }
+    .stat { min-width: 78px; padding: 8px 12px; text-align: center; border-radius: 12px; background: rgba(7,17,31,.55); border: 1px solid var(--line); }
+    .stat span { display: block; color: var(--muted); font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; }
+    .stat strong { font-size: 1.12rem; }
+
+    main { padding: 30px; }
+
+    .progress-row { display: flex; align-items: center; gap: 14px; margin-bottom: 26px; color: var(--muted); font-size: .85rem; }
+    .progress-track { flex: 1; height: 7px; border-radius: 99px; background: rgba(148,163,184,.12); overflow: hidden; }
+    .progress-bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan), #7193ff); transition: width .35s ease; }
+
+    .screen { display: none; }
+    .screen.active { display: block; animation: rise .35s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+
+    .intro, .result { text-align: center; padding: clamp(22px, 6vw, 60px) 20px; }
+    .intro-icon, .result-icon { font-size: 4rem; margin-bottom: 18px; filter: drop-shadow(0 10px 22px rgba(67,217,208,.22)); }
+    h2 { margin: 0 0 12px; font-size: clamp(1.8rem, 5vw, 3rem); line-height: 1.05; }
+    .lead { width: min(620px, 100%); margin: 0 auto 28px; color: var(--muted); font-size: 1rem; line-height: 1.75; }
+
+    .tip {
+      margin: 0 0 14px;
+      color: var(--cyan);
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .url-card {
+      position: relative;
+      min-height: 154px;
+      display: grid;
+      place-items: center;
+      padding: 42px 28px 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(67,217,208,.2);
+      background: linear-gradient(145deg, rgba(7,17,31,.92), rgba(17,31,51,.92));
+      overflow-wrap: anywhere;
+    }
+
+    .address-label {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    .url {
+      width: 100%;
+      max-width: 100%;
+      font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+      font-size: clamp(1rem, 3vw, 1.48rem);
+      line-height: 1.55;
+      text-align: center;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .question { margin: 28px 0 18px; text-align: center; font-size: 1.15rem; font-weight: 750; }
+    .actions { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+
+    .btn {
+      min-width: 0;
+      min-height: 58px;
+      padding: 14px 20px;
+      border: 1px solid transparent;
+      border-radius: 15px;
+      color: var(--text);
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .18s ease, filter .18s ease, border-color .18s ease;
+    }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .btn:focus-visible { outline: 3px solid rgba(255,209,102,.7); outline-offset: 3px; }
+    .btn:disabled { cursor: not-allowed; opacity: .58; transform: none; }
+    .btn-safe { color: #b7ffcf; background: rgba(46, 204, 113, .12); border-color: rgba(100,230,154,.38); }
+    .btn-danger { color: #ffbcc5; background: rgba(255,75,98,.12); border-color: rgba(255,107,125,.38); }
+    .btn-primary { background: linear-gradient(135deg, #2fbeb6, #556ee6); box-shadow: 0 12px 28px rgba(54,154,180,.2); }
+
+    .feedback {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(7,17,31,.58);
+    }
+    .feedback.show { display: block; animation: rise .28s ease both; }
+    .feedback.correct { border-color: rgba(100,230,154,.34); }
+    .feedback.wrong { border-color: rgba(255,107,125,.34); }
+    .feedback h3 { margin: 0 0 8px; font-size: 1.05rem; }
+    .feedback p { margin: 0; color: var(--muted); line-height: 1.65; }
+    .feedback .next { width: 100%; margin-top: 16px; }
+
+    .result-score { margin: 22px auto; font-size: clamp(3rem, 10vw, 5.4rem); font-weight: 900; line-height: 1; color: var(--cyan); }
+    .result-score small { font-size: .25em; color: var(--muted); }
+
+    .error-box { display: none; margin-top: 18px; padding: 14px; color: #ffd5da; border: 1px solid rgba(255,107,125,.35); border-radius: 12px; background: rgba(255,107,125,.08); line-height: 1.6; }
+    .error-box.show { display: block; }
+
+    footer { padding: 0 30px 24px; text-align: center; color: #718399; font-size: .74rem; }
+
+    @media (max-width: 650px) {
+      header { align-items: flex-start; padding: 20px; }
+      .scoreboard { flex-direction: column; }
+      .stat { min-width: 66px; padding: 6px 8px; }
+      main { padding: 22px 18px; }
+      .actions { grid-template-columns: 1fr; }
+      .url-card { padding-inline: 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🎣</div>
+        <div>
+          <p class="eyebrow">Cyber awareness game</p>
+          <h1>Phishing Detective · 钓鱼侦探</h1>
+        </div>
+      </div>
+      <div class="scoreboard" aria-label="游戏数据">
+        <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+        <div class="stat"><span>Streak</span><strong id="streak">0</strong></div>
+      </div>
+    </header>
+
+    <main>
+      <div class="progress-row" id="progressRow" hidden>
+        <span id="progressText">1 / 10</span>
+        <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
+      </div>
+
+      <section class="screen intro active" id="introScreen">
+        <div class="intro-icon" aria-hidden="true">🕵️</div>
+        <p class="tip">Your mission</p>
+        <h2>你能识破伪装吗？</h2>
+        <p class="lead">每局随机抽取 10 个网址。观察协议、主域名和拼写，判断它是安全网站还是钓鱼陷阱。网址仅用于学习，不可点击。</p>
+        <button class="btn btn-primary" id="startButton" type="button">开始调查 / Start game</button>
+        <div class="error-box" id="errorBox" role="alert"></div>
+      </section>
+
+      <section class="screen" id="gameScreen" aria-live="polite">
+        <p class="tip">Inspect the address carefully</p>
+        <div class="url-card">
+          <div class="address-label"><span aria-hidden="true">🔎</span> address under review</div>
+          <div class="url" id="urlDisplay"></div>
+        </div>
+        <p class="question">这是安全网站，还是钓鱼陷阱？</p>
+        <div class="actions" id="answerButtons">
+          <button class="btn btn-safe" type="button" data-answer="safe">✓ 安全网站 / Legitimate</button>
+          <button class="btn btn-danger" type="button" data-answer="phishing">⚠ 钓鱼陷阱 / Phishing</button>
+        </div>
+        <div class="feedback" id="feedback">
+          <h3 id="feedbackTitle"></h3>
+          <p id="explanation"></p>
+          <button class="btn btn-primary next" id="nextButton" type="button">下一题 / Next</button>
+        </div>
+      </section>
+
+      <section class="screen result" id="resultScreen">
+        <div class="result-icon" id="resultIcon" aria-hidden="true">🏆</div>
+        <p class="tip">Investigation complete</p>
+        <h2 id="resultTitle">调查完成！</h2>
+        <div class="result-score"><span id="finalScore">0</span><small> / 10</small></div>
+        <p class="lead" id="resultMessage"></p>
+        <button class="btn btn-primary" id="restartButton" type="button">再玩一次 / Play again</button>
+      </section>
+    </main>
+
+    <footer>安全提示：不要仅凭 HTTPS 判断网站安全；始终核对真正的主域名。</footer>
+  </div>
+
+  <script>
+    const RAW_DATA_URL = "https://raw.githubusercontent.com/SmallCarrotQWQ/fishing_game/main/phising_url.json";
+    const LOCAL_DATA_URL = "./phising_url.json";
+    const QUESTIONS_PER_GAME = 10;
+
+    const elements = {
+      intro: document.querySelector("#introScreen"),
+      game: document.querySelector("#gameScreen"),
+      result: document.querySelector("#resultScreen"),
+      start: document.querySelector("#startButton"),
+      restart: document.querySelector("#restartButton"),
+      next: document.querySelector("#nextButton"),
+      answers: document.querySelector("#answerButtons"),
+      url: document.querySelector("#urlDisplay"),
+      score: document.querySelector("#score"),
+      streak: document.querySelector("#streak"),
+      progressRow: document.querySelector("#progressRow"),
+      progressText: document.querySelector("#progressText"),
+      progressBar: document.querySelector("#progressBar"),
+      feedback: document.querySelector("#feedback"),
+      feedbackTitle: document.querySelector("#feedbackTitle"),
+      explanation: document.querySelector("#explanation"),
+      finalScore: document.querySelector("#finalScore"),
+      resultIcon: document.querySelector("#resultIcon"),
+      resultTitle: document.querySelector("#resultTitle"),
+      resultMessage: document.querySelector("#resultMessage"),
+      error: document.querySelector("#errorBox")
+    };
+
+    let allQuestions = [];
+    let questions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let streak = 0;
+    let answered = false;
+
+    function shuffle(items) {
+      const copy = [...items];
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function validateData(data) {
+      if (!Array.isArray(data) || data.length < QUESTIONS_PER_GAME) return false;
+      return data.every(item =>
+        typeof item.url === "string" &&
+        typeof item.isPhishing === "boolean" &&
+        typeof item.explanation === "string"
+      );
+    }
+
+    async function loadData() {
+      const sources = location.protocol === "file:" ? [RAW_DATA_URL, LOCAL_DATA_URL] : [LOCAL_DATA_URL, RAW_DATA_URL];
+      for (const source of sources) {
+        try {
+          const response = await fetch(source, { cache: "no-store" });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          if (!validateData(data)) throw new Error("Invalid data format");
+          return data;
+        } catch (error) {
+          console.warn(`Unable to load ${source}:`, error);
+        }
+      }
+      throw new Error("无法读取题库。请联网后重试，或使用本地服务器打开本项目。详见 README.md。")
+    }
+
+    function showScreen(screen) {
+      [elements.intro, elements.game, elements.result].forEach(item => item.classList.toggle("active", item === screen));
+      elements.progressRow.hidden = screen !== elements.game;
+    }
+
+    async function startGame() {
+      elements.start.disabled = true;
+      elements.start.textContent = "正在读取题库…";
+      elements.error.classList.remove("show");
+      try {
+        if (!allQuestions.length) allQuestions = await loadData();
+        questions = shuffle(allQuestions).slice(0, QUESTIONS_PER_GAME);
+        currentIndex = 0;
+        score = 0;
+        streak = 0;
+        updateStats();
+        showScreen(elements.game);
+        renderQuestion();
+      } catch (error) {
+        elements.error.textContent = error.message;
+        elements.error.classList.add("show");
+      } finally {
+        elements.start.disabled = false;
+        elements.start.textContent = "开始调查 / Start game";
+      }
+    }
+
+    function updateStats() {
+      elements.score.textContent = score;
+      elements.streak.textContent = streak;
+    }
+
+    function renderQuestion() {
+      answered = false;
+      const item = questions[currentIndex];
+      elements.url.textContent = item.url;
+      elements.progressText.textContent = `${currentIndex + 1} / ${questions.length}`;
+      elements.progressBar.style.width = `${((currentIndex + 1) / questions.length) * 100}%`;
+      elements.feedback.className = "feedback";
+      [...elements.answers.querySelectorAll("button")].forEach(button => { button.disabled = false; });
+      elements.next.textContent = currentIndex === questions.length - 1 ? "查看结果 / See result" : "下一题 / Next";
+    }
+
+    function answer(choice) {
+      if (answered) return;
+      answered = true;
+      const item = questions[currentIndex];
+      const chosePhishing = choice === "phishing";
+      const correct = chosePhishing === item.isPhishing;
+
+      if (correct) {
+        score += 1;
+        streak += 1;
+        elements.feedbackTitle.textContent = "✓ 判断正确！ Good catch.";
+        elements.feedback.classList.add("correct");
+      } else {
+        streak = 0;
+        elements.feedbackTitle.textContent = "✕ 被伪装迷惑了。 Stay alert.";
+        elements.feedback.classList.add("wrong");
+      }
+
+      updateStats();
+      elements.explanation.textContent = item.explanation;
+      elements.feedback.classList.add("show");
+      [...elements.answers.querySelectorAll("button")].forEach(button => { button.disabled = true; });
+      elements.next.focus();
+    }
+
+    function nextQuestion() {
+      currentIndex += 1;
+      if (currentIndex < questions.length) {
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      const ratio = score / questions.length;
+      elements.finalScore.textContent = score;
+      if (ratio >= .9) {
+        elements.resultIcon.textContent = "🏆";
+        elements.resultTitle.textContent = "顶级钓鱼侦探！";
+        elements.resultMessage.textContent = "你的域名观察力非常敏锐。继续保持警惕，别让紧迫感代替判断。";
+      } else if (ratio >= .6) {
+        elements.resultIcon.textContent = "🔍";
+        elements.resultTitle.textContent = "合格的网络侦探";
+        elements.resultMessage.textContent = "不错！再练习一下从右向左核对主域名，你会识破更多伪装。";
+      } else {
+        elements.resultIcon.textContent = "🛡️";
+        elements.resultTitle.textContent = "警觉度需要升级";
+        elements.resultMessage.textContent = "先别输入密码。检查拼写、主域名、协议和紧急措辞，然后再决定是否继续。";
+      }
+      showScreen(elements.result);
+    }
+
+    elements.start.addEventListener("click", startGame);
+    elements.restart.addEventListener("click", startGame);
+    elements.next.addEventListener("click", nextQuestion);
+    elements.answers.addEventListener("click", event => {
+      const button = event.target.closest("button[data-answer]");
+      if (button) answer(button.dataset.answer);
+    });
+  </script>
+</body>
+</html>

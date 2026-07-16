@@ -1,0 +1,8 @@
+# Local reference and temporary extraction files
+/Phising Game.docx
+/work/
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+.vscode/
